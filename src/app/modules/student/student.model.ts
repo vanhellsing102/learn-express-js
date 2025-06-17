@@ -16,25 +16,35 @@ const studentSchema = new Schema<Student>({
             type: String
         }
     },
-    gender: ["male", "female"],
+    gender: {
+        type: String,
+        enum: {
+            values: ["male", "female", "other"],
+            message: "{VALUE} is not valid"
+        },
+        required: [true, "Gender is required"]
+    },
     dateOfBirth: {
         type: String
     },
     email: {
         type: String,
-        required: true
+        required: [true, "Email is required"]
     },
     contactNo: {
         type: String,
-        required: true
+        required: [true, "Contact is required"]
     },
     emergencyContactNo: {
         type: String,
     },
-    bloodGroup: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+    bloodGroup: {
+        type:String,
+        enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
+    },
     presentAddress: {
         type: String,
-        required: true
+        required: [true, "Address is required"]
     },
     parmanentAddress: {
         type: String,
@@ -59,7 +69,11 @@ const studentSchema = new Schema<Student>({
         address: String
     },
     profileImage: String,
-    isActive: ["active", "inActive"]
+    isActive: {
+        type: String,
+        enum: ["active", "inActive"],
+        default: "active"
+    }
 })
 
 const StudentModel = model<Student>('Student', studentSchema);
