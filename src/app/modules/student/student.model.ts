@@ -62,6 +62,6 @@ const studentSchema = new Schema<Student>({
     isActive: ["active", "inActive"]
 })
 
-const Student = model<Student>('Student', studentSchema);
+const StudentModel = model<Student>('Student', studentSchema);
 
-export default Student;
+export default StudentModel;
