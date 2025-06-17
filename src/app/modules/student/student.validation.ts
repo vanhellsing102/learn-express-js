@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 const studentValidationSchema = Joi.object({
   id: Joi.string(),
+  password: Joi.string().required(),
   name: Joi.object({
     firstName: Joi.string()
       .trim()

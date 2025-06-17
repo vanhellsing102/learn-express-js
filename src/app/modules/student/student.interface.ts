@@ -1,3 +1,4 @@
+import { Model } from "mongoose";
 
 export type LocalGuardian = {
     name: string;
@@ -8,6 +9,7 @@ export type LocalGuardian = {
 
 export type Student = {
     id: string;
+    password: string;
     name: {
         firstName: string;
         middleName: string;
@@ -33,3 +35,9 @@ export type Student = {
     profileImage?: string; 
     isActive: "active"|"inActive";
 }
+
+
+// export type StudentMethods = {
+//     isStudentExists(id: string): Promise<Student>;
+// }
+// export type StudentModels = Model<Student, Record<string, never>, StudentMethods>;

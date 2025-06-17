@@ -1,12 +1,18 @@
 import { model, Schema } from "mongoose";
 import { Student } from "./student.interface";
 import validator from 'validator';
+import bcrypt from "bcrypt";
+import config from "../../config";
 
 
 const studentSchema = new Schema<Student>({
     id: {
         type: String, 
         // unique: true
+    },
+    password: {
+        type: String,
+        required: true
     },
     name: {
         firstName: {
@@ -92,8 +98,20 @@ const studentSchema = new Schema<Student>({
         enum: ["active", "inActive"],
         default: "active"
     }
+});
+
+
+// pre save middleware/hook----------------------------------------
+studentSchema.pre("save", async function(next){
+    // console.log(this, "pre middleware");
+    const user = this;
+    user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
+    // next();
+})
+studentSchema.post("save", function(){
+    // console.log(this, "post middleware");
 })
 
-const StudentModel = model<Student>('Student', studentSchema);
 
+const StudentModel = model<Student>('Student', studentSchema);
 export default StudentModel;

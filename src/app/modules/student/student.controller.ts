@@ -7,6 +7,7 @@ const createStudent = async (req: Request, res: Response) => {
     const { student } = req.body;
     const { error, value } = studentValidationSchema.validate(student);
     // console.log({error}, {value});
+    const result = await StudentServices.createStudentIntoDB(value);
     if (error) {
       res.status(500).json({
         success: false,
@@ -14,7 +15,6 @@ const createStudent = async (req: Request, res: Response) => {
         error: error.details
       });
     }
-    const result = await StudentServices.createStudentIntoDB(student);
     res.status(200).json({
       success: true,
       message: 'Student is created successfully',
