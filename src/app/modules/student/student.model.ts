@@ -1,19 +1,37 @@
 import { model, Schema } from "mongoose";
 import { Student } from "./student.interface";
+import validator from 'validator';
 
 
 const studentSchema = new Schema<Student>({
-    id: String,
+    id: {
+        type: String, 
+        // unique: true
+    },
     name: {
         firstName: {
             type: String,
-            required: true
+            required: true,
+            trim: true,
+            maxLength: [20, "first name can not be more than 20 character"],
+            validate: {
+                validator: function(value: string){
+                // console.log(value);
+                const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+                return value === firstNameStr;
+            },
+            message: "{VALUE} is not capitalize format"
+            }
         },
         middleName: {
             type: String
         },
         lastName: {
-            type: String
+            type: String,
+            validate: {
+                validator: (value: string) =>validator.isAlpha(value),
+                message: "{VALUE} is not valid"
+            }
         }
     },
     gender: {
