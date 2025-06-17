@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { Student } from "./student.interface";
 
 
@@ -61,3 +61,7 @@ const studentSchema = new Schema<Student>({
     profileImage: String,
     isActive: ["active", "inActive"]
 })
+
+const Student = model<Student>('Student', studentSchema);
+
+export default Student;
