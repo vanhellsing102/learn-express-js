@@ -97,19 +97,40 @@ const studentSchema = new Schema<Student>({
         type: String,
         enum: ["active", "inActive"],
         default: "active"
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    }
+}, {
+    toJSON: {
+        virtuals: true
     }
 });
 
+// virtual-----------------------------------------------
+studentSchema.virtual("fullName").get(function(){
+    return(`${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`);
+})
 
 // pre save middleware/hook----------------------------------------
 studentSchema.pre("save", async function(next){
-    // console.log(this, "pre middleware");
     const user = this;
     user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
     // next();
 })
-studentSchema.post("save", function(){
+studentSchema.post("save", function(doc, next){
     // console.log(this, "post middleware");
+    doc.password = "";
+    next();
+})
+
+
+// query middleware----------------------------------
+studentSchema.pre("find", async function(next){
+    // console.log("find");
+    this.find({isDeleted: {$eq: false}});
+    next();
 })
 
 

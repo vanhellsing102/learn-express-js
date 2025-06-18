@@ -34,6 +34,7 @@ export type Student = {
     localGuardian: LocalGuardian;
     profileImage?: string; 
     isActive: "active"|"inActive";
+    isDeleted: boolean;
 }
 
 
