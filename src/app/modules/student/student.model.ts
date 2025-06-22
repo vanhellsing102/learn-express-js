@@ -1,44 +1,20 @@
 import { model, Schema } from "mongoose";
-import { Student } from "./student.interface";
-import validator from 'validator';
-import bcrypt from "bcrypt";
-import config from "../../config";
+import { TStudent } from "./student.interface";
 
 
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent>({
     id: {
-        type: String, 
-        // unique: true
+        type: String
     },
-    password: {
-        type: String,
-        required: true
+    user: {
+        type: Schema.Types.ObjectId,
+        required: [true, "User id must be required"],
+        unique: true,
+        ref: "User"
     },
     name: {
-        firstName: {
-            type: String,
-            required: true,
-            trim: true,
-            maxLength: [20, "first name can not be more than 20 character"],
-            validate: {
-                validator: function(value: string){
-                // console.log(value);
-                const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
-                return value === firstNameStr;
-            },
-            message: "{VALUE} is not capitalize format"
-            }
-        },
-        middleName: {
-            type: String
-        },
-        lastName: {
-            type: String,
-            validate: {
-                validator: (value: string) =>validator.isAlpha(value),
-                message: "{VALUE} is not valid"
-            }
-        }
+        type: String,
+        required: true
     },
     gender: {
         type: String,
@@ -92,47 +68,18 @@ const studentSchema = new Schema<Student>({
         contactNo: String,
         address: String
     },
-    profileImage: String,
-    isActive: {
-        type: String,
-        enum: ["active", "inActive"],
-        default: "active"
+    profileImage: {
+        type: String
     },
     isDeleted: {
         type: Boolean,
         default: false
     }
-}, {
-    toJSON: {
-        virtuals: true
-    }
 });
 
-// virtual-----------------------------------------------
-studentSchema.virtual("fullName").get(function(){
-    return(`${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`);
-})
-
-// pre save middleware/hook----------------------------------------
-studentSchema.pre("save", async function(next){
-    const user = this;
-    user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
-    // next();
-})
-studentSchema.post("save", function(doc, next){
-    // console.log(this, "post middleware");
-    doc.password = "";
-    next();
-})
 
 
-// query middleware----------------------------------
-studentSchema.pre("find", async function(next){
-    // console.log("find");
-    this.find({isDeleted: {$eq: false}});
-    next();
-})
 
 
-const StudentModel = model<Student>('Student', studentSchema);
+const StudentModel = model<TStudent>('Student', studentSchema);
 export default StudentModel;

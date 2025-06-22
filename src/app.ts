@@ -1,6 +1,6 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { StudentRoutes } from './app/modules/student/student.route';
+import { UserRoutes } from './app/modules/user/user.route';
 const app: Application = express();
 
 // parser---------------------------
@@ -9,12 +9,18 @@ app.use(cors());
 
 
 // routes------------------------
-app.use('/api/v1/students', StudentRoutes);
+app.use('/api/v1/users', UserRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   const a = 10;
-
   res.send(a);
 });
 
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) =>{
+  res.status(500).json({
+    success: false,
+    message: err || "something went wrong"
+  })
+})
 export default app;
