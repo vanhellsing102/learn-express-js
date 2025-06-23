@@ -1,6 +1,7 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { UserRoutes } from './app/modules/user/user.route';
+import { AcademicSemesterRoutes } from './app/modules/academicSemester/academicSemester.route';
 const app: Application = express();
 
 // parser---------------------------
@@ -10,6 +11,7 @@ app.use(cors());
 
 // routes------------------------
 app.use('/api/v1/users', UserRoutes);
+app.use('/api/academic-semester', AcademicSemesterRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   const a = 10;
