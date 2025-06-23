@@ -5,7 +5,7 @@ const studentValidationSchema = z.object({
   // user: z.string().optional(),
   name: z.string().optional(),
   gender: z.enum(["male", "female", "other"]).optional(),
-  dateOfBirth: z.string().optional(),
+  dateOfBirth: z.date().optional(),
   email: z.string().email("Email must be valid").optional(),
   contactNo: z.string().optional(),
   emergencyContactNo: z.string().optional(),
