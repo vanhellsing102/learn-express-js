@@ -4,6 +4,7 @@ import { UserRoutes } from './app/modules/user/user.route';
 import { AcademicSemesterRoutes } from './app/modules/academicSemester/academicSemester.route';
 import { AcademicFacultyRoutes } from './app/modules/academicFaculty/academicFaculty.route';
 import { AcademicDepartmentRoutes } from './app/modules/academicDepartment/academicDepartment.route';
+import { StudentRoutes } from './app/modules/student/student.route';
 const app: Application = express();
 
 // parser---------------------------
@@ -13,6 +14,7 @@ app.use(cors());
 
 // routes------------------------
 app.use('/api/v1/users', UserRoutes);
+app.use('/api/v1/students', StudentRoutes);
 app.use('/api/v1/academic-semesters', AcademicSemesterRoutes);
 app.use('/api/v1/academic-faculty', AcademicFacultyRoutes);
 app.use('/api/v1/academic-department', AcademicDepartmentRoutes);
