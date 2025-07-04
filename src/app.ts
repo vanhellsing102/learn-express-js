@@ -11,7 +11,7 @@ app.use(cors());
 
 // routes------------------------
 app.use('/api/v1/users', UserRoutes);
-app.use('/api/academic-semester', AcademicSemesterRoutes);
+app.use('/api/v1/academic-semesters', AcademicSemesterRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   const a = 10;
@@ -22,7 +22,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use((err: any, req: Request, res: Response, next: NextFunction) =>{
   res.status(500).json({
     success: false,
-    message: err || "something went wrong"
+    message: err?.message || "something went wrong"
   })
 })
 export default app;
