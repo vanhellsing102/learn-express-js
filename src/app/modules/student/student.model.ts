@@ -25,7 +25,7 @@ const studentSchema = new Schema<TStudent>({
         required: [true, "Gender is required"]
     },
     dateOfBirth: {
-        type: Date
+        type: String
     },
     email: {
         type: String,
@@ -70,6 +70,10 @@ const studentSchema = new Schema<TStudent>({
     },
     profileImage: {
         type: String
+    },
+    admissionSemester: {
+        type: Schema.Types.ObjectId,
+        ref: "AcademicSemester"
     }
 });
 

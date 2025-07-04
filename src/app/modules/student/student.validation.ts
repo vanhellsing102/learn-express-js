@@ -5,7 +5,7 @@ const studentValidationSchema = z.object({
   // user: z.string().optional(),
   name: z.string().optional(),
   gender: z.enum(["male", "female", "other"]).optional(),
-  dateOfBirth: z.date().optional(),
+  dateOfBirth: z.string().optional(),
   email: z.string().email("Email must be valid").optional(),
   contactNo: z.string().optional(),
   emergencyContactNo: z.string().optional(),
@@ -26,7 +26,8 @@ const studentValidationSchema = z.object({
     contactNo: z.string().optional(),
     address: z.string().optional(),
   }).optional(),
-  profileImage: z.string().url().optional()
+  profileImage: z.string().url().optional(),
+  admissionSemester: z.string().optional()
 });
 
 export const studentValidations = {
