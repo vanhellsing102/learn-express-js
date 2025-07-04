@@ -3,6 +3,7 @@ import cors from 'cors';
 import { UserRoutes } from './app/modules/user/user.route';
 import { AcademicSemesterRoutes } from './app/modules/academicSemester/academicSemester.route';
 import { AcademicFacultyRoutes } from './app/modules/academicFaculty/academicFaculty.route';
+import { AcademicDepartmentRoutes } from './app/modules/academicDepartment/academicDepartment.route';
 const app: Application = express();
 
 // parser---------------------------
@@ -14,6 +15,7 @@ app.use(cors());
 app.use('/api/v1/users', UserRoutes);
 app.use('/api/v1/academic-semesters', AcademicSemesterRoutes);
 app.use('/api/v1/academic-faculty', AcademicFacultyRoutes);
+app.use('/api/v1/academic-department', AcademicDepartmentRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   const a = 10;
