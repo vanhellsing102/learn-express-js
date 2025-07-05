@@ -20,13 +20,14 @@ app.use('/api/v1/academic-faculty', AcademicFacultyRoutes);
 app.use('/api/v1/academic-department', AcademicDepartmentRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-  const a = 10;
+  // throw new Error();
+  const a = "Murad";
   res.send(a);
 });
 
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) =>{
-  res.status(500).json({
+  res.status(err.statusCode || 500).json({
     success: false,
     message: err?.message || "something went wrong"
   })

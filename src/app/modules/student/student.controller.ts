@@ -11,7 +11,18 @@ const getAllStudent = catchAsync(async(req, res) =>{
         data: result
     })
 })
+const getSingleStudent = catchAsync(async(req, res) =>{
+    const {studentId} = req.params;
+    const result = await StudentServices.getSingleStudentFromDB(studentId);
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Get single student successfully",
+        data: result
+    })
+})
 
 export const StudentControllers = {
-    getAllStudent
+    getAllStudent,
+    getSingleStudent
 }

@@ -28,7 +28,8 @@ const studentValidationSchema = z.object({
   }).optional(),
   profileImage: z.string().url().optional(),
   admissionSemester: z.string().optional(),
-  academicDepartment: z.string().optional()
+  academicDepartment: z.string().optional(),
+  isDeleted: z.boolean().optional()
 });
 
 export const studentValidations = {
