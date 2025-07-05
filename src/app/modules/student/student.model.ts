@@ -1,7 +1,6 @@
 import { model, Schema } from "mongoose";
 import { TStudent } from "./student.interface";
 
-
 const studentSchema = new Schema<TStudent>({
     id: {
         type: String
@@ -13,8 +12,15 @@ const studentSchema = new Schema<TStudent>({
         ref: "User"
     },
     name: {
-        type: String,
-        required: true
+        firstName: {
+            type: String,
+        },
+        middleName: {
+            type: String
+        },
+        lastName: {
+            type: String
+        }
     },
     gender: {
         type: String,
@@ -84,9 +90,6 @@ const studentSchema = new Schema<TStudent>({
         default: false
     }
 });
-
-
-
 
 
 const StudentModel = model<TStudent>('Student', studentSchema);
