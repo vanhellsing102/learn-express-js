@@ -4,8 +4,8 @@ import { AcademicDepartmentValidations } from "./academicDepartment.validation";
 import { AcademicDepartmentControllers } from "./academicDepartment.controller";
 
 const router = express.Router();
-
-router.post('/create-academic-department', validateRequest(AcademicDepartmentValidations.academicDepartmentValidationSchema), AcademicDepartmentControllers.createAcademicDepartment);
+//validateRequest(AcademicDepartmentValidations.academicDepartmentValidationSchema),
+router.post('/create-academic-department',  AcademicDepartmentControllers.createAcademicDepartment);
 router.patch('/:academicDepartmentId', validateRequest(AcademicDepartmentValidations.updateAcademicDepartmentValidationSchema), AcademicDepartmentControllers.updateAcademicDepertment);
 router.get('/', AcademicDepartmentControllers.getAllAcademicDepartment);
 router.get('/:academicDepartmentId', AcademicDepartmentControllers.getSingleAcademicDepartment);
