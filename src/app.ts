@@ -1,10 +1,11 @@
-import express, { Application, NextFunction, Request, Response } from 'express';
+import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { UserRoutes } from './app/modules/user/user.route';
 import { AcademicSemesterRoutes } from './app/modules/academicSemester/academicSemester.route';
 import { AcademicFacultyRoutes } from './app/modules/academicFaculty/academicFaculty.route';
 import { AcademicDepartmentRoutes } from './app/modules/academicDepartment/academicDepartment.route';
 import { StudentRoutes } from './app/modules/student/student.route';
+import globalErrorHandler from './app/middleware/globalErrorHandler';
 const app: Application = express();
 
 // parser---------------------------
@@ -25,11 +26,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send(a);
 });
 
+// global error handler----
+app.use(globalErrorHandler);
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) =>{
-  res.status(err.statusCode || 500).json({
-    success: false,
-    message: err?.message || "something went wrong"
-  })
-})
 export default app;
