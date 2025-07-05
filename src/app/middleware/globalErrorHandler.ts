@@ -4,6 +4,7 @@ import { TErrorSources } from "../interface/error.interface";
 import config from "../config";
 import handleZodError from "../errors/handleZodError";
 import handleValidationError from "../errors/handleValidationError";
+import handleCastError from "../errors/handleCastError";
 
 const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) =>{
     let statusCode = err.statusCode || 500;
@@ -23,13 +24,18 @@ const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFun
         statusCode = simplifiedValidationError.statusCode;
         message = simplifiedValidationError.message;
         errorSources = simplifiedValidationError.errorSources;
+    } else if(err.name === "CastError"){
+        const simplifiedCastError = handleCastError(err);
+        statusCode = simplifiedCastError.statusCode;
+        message = simplifiedCastError.message;
+        errorSources = simplifiedCastError.errorSources;
     }
 
   res.status(statusCode).json({
     success: false,
     message, 
     errorSources,
-    // err,
+    err,
     stack: config.NODE_ENV === "development" ? err.stack : null
   })
 }
