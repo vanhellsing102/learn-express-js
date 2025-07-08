@@ -6,21 +6,35 @@ import httpStatus from "http-status";
 import { TStudent } from "./student.interface";
 
 const getAllStudentFromDB = async(query: Record<string, unknown>) =>{
+    const queryObj = {...query};
     let searchTerm = "";
     if(query.searchTerm){
         searchTerm = query.searchTerm as string;
     }
-    const result = await StudentModel.find({
+    const excludeFields = ["searchTerm", "sort", "limit"];
+    excludeFields.forEach((el) => delete queryObj[el]);
+    const studentQuery = StudentModel.find({
         $or: ["name.middleName", "email"].map((field) =>({
             [field]: {$regex: searchTerm, $options: "i"}
         }))
-    }).populate("admissionSemester").populate({
+    });
+    const filterQuery = studentQuery.find(queryObj).populate("admissionSemester").populate({
         path: "academicDepartment",
         populate: {
             path: "academicFaculty"
         }
     });
-    return result;
+    let sort = "-createdAt";
+    if(query.sort){
+        sort = query.sort as string;
+    }
+    const sortQuery = filterQuery.sort(sort);
+    let limit = 1;
+    if(query.limit){
+        limit = query.limit as number;
+    }
+    const limitQuery = sortQuery.limit(limit);
+    return limitQuery;
 }
 const getSingleStudentFromDB = async(studentId: string) =>{
     const result = await StudentModel.findById(studentId).populate("admissionSemester").populate({
