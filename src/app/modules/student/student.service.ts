@@ -5,8 +5,16 @@ import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 import { TStudent } from "./student.interface";
 
-const getAllStudentFromDB = async() =>{
-    const result = await StudentModel.find().populate("admissionSemester").populate({
+const getAllStudentFromDB = async(query: Record<string, unknown>) =>{
+    let searchTerm = "";
+    if(query.searchTerm){
+        searchTerm = query.searchTerm as string;
+    }
+    const result = await StudentModel.find({
+        $or: ["name.middleName", "email"].map((field) =>({
+            [field]: {$regex: searchTerm, $options: "i"}
+        }))
+    }).populate("admissionSemester").populate({
         path: "academicDepartment",
         populate: {
             path: "academicFaculty"

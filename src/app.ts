@@ -24,6 +24,7 @@ app.get('/', (req: Request, res: Response) => {
   // throw new Error();
   const a = "Murad";
   res.send(a);
+  // Promise.reject();
 });
 
 // global error handler----

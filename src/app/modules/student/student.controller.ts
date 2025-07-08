@@ -3,7 +3,8 @@ import sendResponse from "../../utils/sendResponse";
 import { StudentServices } from "./student.service";
 
 const getAllStudent = catchAsync(async(req, res) =>{
-    const result = await StudentServices.getAllStudentFromDB();
+    // console.log(req.query)
+    const result = await StudentServices.getAllStudentFromDB(req.query);
     sendResponse(res, {
         statusCode: 200,
         success: true,
